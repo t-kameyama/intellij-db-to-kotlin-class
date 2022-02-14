@@ -22,12 +22,21 @@ version = properties("pluginVersion")
 // Configure project's dependencies
 repositories {
     mavenCentral()
+    maven { setUrl("https://jitpack.io") }
+}
+
+dependencies {
+    implementation("org.javalite:javalite-common:3.0-j11")
 }
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
     pluginName.set(properties("pluginName"))
-    version.set(properties("platformVersion"))
+    if (System.getenv("LOCAL_DEV")?.toBoolean() == true) {
+        localPath.set(properties("localIdeaPath"))
+    } else {
+        version.set(properties("platformVersion"))
+    }
     type.set(properties("platformType"))
 
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.

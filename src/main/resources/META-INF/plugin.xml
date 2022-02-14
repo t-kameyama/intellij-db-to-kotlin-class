@@ -1,18 +1,26 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.tkameyama.intellijdbtokotlinclass</id>
-    <name>intellij-db-to-kotlin-class</name>
-    <vendor>t-kameyama</vendor>
+    <id>com.github.t-kameyama.db-to-kotlin-class</id>
+    <name>Database To Kotlin Class</name>
+    <vendor email="kmymtsak@gmail.com" url="https://www.github.com/t-kameyama">t-kameyama</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.database</depends>
+
+    <actions>
+        <action id="com.github.t_kameyama.dbtokotlin.DatabaseToKotlinAction"
+                class="com.github.t_kameyama.dbtokotlin.DatabaseToKotlinClassAction"
+                text="Generate Kotlin Data Class">
+            <add-to-group group-id="DatabaseViewPopupMenu" anchor="last"/>
+        </action>
+    </actions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.tkameyama.intellijdbtokotlinclass.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.tkameyama.intellijdbtokotlinclass.services.MyProjectService"/>
+        <applicationService serviceImplementation="com.github.t_kameyama.dbtokotlin.SettingsState"/>
+        <applicationConfigurable parentId="tools"
+                                 instance="com.github.t_kameyama.dbtokotlin.SettingsConfigurable"
+                                 id="com.github.t_kameyama.dbtokotlin.SettingsConfigurable"
+                                 displayName="Database To Kotlin Class" />
     </extensions>
 
-    <applicationListeners>
-        <listener class="com.github.tkameyama.intellijdbtokotlinclass.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
 </idea-plugin>
