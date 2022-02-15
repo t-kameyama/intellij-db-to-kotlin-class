@@ -4,4 +4,4 @@
 
 ## [0.0.1]
 ### Added
-- "Database To Kotlin Class" action
+- "Generate Kotlin Data Class" action

@@ -5,19 +5,16 @@
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 
 <!-- Plugin description -->
-Plugin that generates Kotlin classes from database tables.
+IntelliJ plugin that generates Kotlin classes from database tables
+
+## Usages
+- Select tables in the Database view and run "Generate Kotlin Data Class" action
+- The action saves the generated code to your clipboard
+- You can configure the plugin settings
+  - <kbd>Settings/Preferences</kbd> > <kbd>Tools</kbd> > <kbd>Database to Kotlin Class</kbd>
 <!-- Plugin description end -->
 
-## Usage
-- Select tables in the Database view and run
-<img width="911" alt="スクリーンショット 2022-02-13 23 08 55" src="https://user-images.githubusercontent.com/1121855/153784650-6c657dc4-9dba-4189-ba1e-70f6741bbb72.png">
-
-- Past generated code into your editor
-<img width="481" alt="スクリーンショット 2022-02-13 23 09 58" src="https://user-images.githubusercontent.com/1121855/153784540-2a022b6a-a59c-49b1-96e1-b6384be1de56.png">
-
-- You can configure the plugin settings
-<img width="893" alt="スクリーンショット 2022-02-14 9 44 44" src="https://user-images.githubusercontent.com/1121855/153784545-1b712aa4-f1bf-464a-a780-a662dcddd78b.png">
-
+![test](https://user-images.githubusercontent.com/1121855/153991625-f4ea3e16-16cf-4d72-8994-852cd33ce8de.gif)
 
 ## Installation
 - Using IDE built-in plugin system:
