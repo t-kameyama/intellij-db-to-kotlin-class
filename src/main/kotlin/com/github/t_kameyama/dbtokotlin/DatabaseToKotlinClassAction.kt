@@ -26,7 +26,8 @@ class DatabaseToKotlinClassAction : AnAction() {
     }
 
     override fun actionPerformed(e: AnActionEvent) {
-        val tables = e.getData(LangDataKeys.PSI_ELEMENT_ARRAY).orEmpty().filterIsInstance<DbTable>()
+        val tables = e.getData(LangDataKeys.PSI_ELEMENT_ARRAY).orEmpty()
+            .filterIsInstance<DbTable>().sortedBy { it.name }
         if (tables.isEmpty()) return
         val dialect = DbSqlUtil.getSqlDialect(tables.first()).databaseDialect
         val state = SettingsState.getInstance()
