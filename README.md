@@ -14,7 +14,7 @@ IntelliJ plugin that generates Kotlin classes from database tables
   - <kbd>Settings/Preferences</kbd> > <kbd>Tools</kbd> > <kbd>Database to Kotlin Class</kbd>
 <!-- Plugin description end -->
 
-![demo](https://user-images.githubusercontent.com/1121855/154027168-7942a89f-e258-4df9-84cc-ce4d8f79094f.gif)
+![test](https://user-images.githubusercontent.com/1121855/154066227-5192972d-5a8a-4049-8460-f28a2304ad04.gif)
 
 ## Installation
 - Using IDE built-in plugin system:
