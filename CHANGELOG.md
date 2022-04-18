@@ -2,7 +2,7 @@
 
 # intellij-db-to-kotlin-class Changelog
 
-## [Unreleased]
+## [0.0.3]
 ### Changed
 - Sort by table name
 
