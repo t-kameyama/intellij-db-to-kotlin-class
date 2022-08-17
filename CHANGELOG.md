@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.0.4]
+### Changed
+- Support IDE build 222
+
 ## [0.0.3]
 ### Changed
 - Sort by table name
