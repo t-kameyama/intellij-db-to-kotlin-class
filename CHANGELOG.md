@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.0.5]
+### Changed
+- Support IDE build 223
+
 ## [0.0.4]
 ### Changed
 - Support IDE build 222
