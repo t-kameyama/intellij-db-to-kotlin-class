@@ -5,6 +5,7 @@ import com.intellij.database.model.DasColumn
 import com.intellij.database.psi.DbTable
 import com.intellij.database.util.DasUtil
 import com.intellij.database.util.DbSqlUtil
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
@@ -19,6 +20,10 @@ import java.time.LocalTime
 
 @ExperimentalStdlibApi
 class DatabaseToKotlinClassAction : AnAction() {
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
+    }
+
     override fun update(e: AnActionEvent) {
         val element = e.getData(LangDataKeys.PSI_ELEMENT)
         e.presentation.isEnabledAndVisible = element is DbTable
@@ -32,7 +37,12 @@ class DatabaseToKotlinClassAction : AnAction() {
         val dialect = DbSqlUtil.getSqlDialect(tables.first()).databaseDialect
         val state = SettingsState.getInstance()
         val dataClasses = tables.joinToString(separator = "\n\n") {
-            it.createDataClass(dialect, state.classNamePrefix, state.classNamePostfix)
+            it.createDataClass(
+                dialect = dialect,
+                classNamePrefix = state.classNamePrefix,
+                classNamePostfix = state.classNamePostfix,
+                classAnnotationsRowText = state.classAnnotations
+            )
         }
         write(dataClasses)
     }
@@ -44,7 +54,8 @@ class DatabaseToKotlinClassAction : AnAction() {
     private fun DbTable.createDataClass(
         dialect: DatabaseDialect,
         classNamePrefix: String,
-        classNamePostfix: String
+        classNamePostfix: String,
+        classAnnotationsRowText: String,
     ): String {
         val split = name.lowercase().split("_")
         val last = split.last()
@@ -55,11 +66,21 @@ class DatabaseToKotlinClassAction : AnAction() {
         val indent = "    "
         val properties = DasUtil.getColumns(this)
             .joinToString(prefix = "\n", postfix = "\n", separator = ",\n") { "$indent${it.createProperty(dialect)}" }
-        return "data class $className($properties)"
+
+        val classAnnotations = if (classAnnotationsRowText.isNotBlank()) {
+            classAnnotationsRowText
+                .split(",")
+                .map { it.trim() }
+                .joinToString(separator = "\n", postfix = "\n") { if (it.startsWith("@")) it else "@$it" }
+        } else {
+            ""
+        }
+
+        return "${classAnnotations}data class $className($properties)"
     }
 
     private fun DasColumn.createProperty(dialect: DatabaseDialect): String {
-        val jdbcType = dialect.getJavaTypeForNativeType(dataType.typeName)
+        val jdbcType = dialect.getJavaTypeForNativeType(dasType.toDataType().typeName)
         val type = when (JDBCType.valueOf(jdbcType)) {
             JDBCType.CHAR,
             JDBCType.VARCHAR,

@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.1.0]
+### Changed
+- Add class annotations
+
 ## [0.0.5]
 ### Changed
 - Support IDE build 223

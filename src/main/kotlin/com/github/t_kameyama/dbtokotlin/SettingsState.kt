@@ -17,6 +17,9 @@ class SettingsState: PersistentStateComponent<SettingsState> {
     @Suppress("unused")
     var classNamePostfix: String = ""
 
+    @Suppress("unused")
+    var classAnnotations: String = ""
+
     override fun getState(): SettingsState {
         return this
     }

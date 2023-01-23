@@ -19,7 +19,9 @@ class SettingsConfigurable : Configurable {
     override fun isModified(): Boolean {
         val component = this.component!!
         val state = SettingsState.getInstance()
-        return (component.classNamePrefix != state.classNamePrefix) || (component.classNamePostfix != state.classNamePostfix)
+        return (component.classNamePrefix != state.classNamePrefix) ||
+                (component.classNamePostfix != state.classNamePostfix) ||
+                (component.classAnnotations != state.classAnnotations)
     }
 
     override fun apply() {
@@ -27,6 +29,7 @@ class SettingsConfigurable : Configurable {
         val state = SettingsState.getInstance()
         state.classNamePrefix = component.classNamePrefix
         state.classNamePostfix = component.classNamePostfix
+        state.classAnnotations = component.classAnnotations
     }
 
     override fun reset() {
@@ -34,6 +37,7 @@ class SettingsConfigurable : Configurable {
         val state = SettingsState.getInstance()
         component.classNamePrefix = state.classNamePrefix
         component.classNamePostfix = state.classNamePostfix
+        component.classAnnotations = state.classAnnotations
     }
 
     override fun disposeUIResources() {
