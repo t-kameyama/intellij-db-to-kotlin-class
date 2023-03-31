@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.2.0]
+### Changed
+- Support IntelliJ IDEA 2023.1
+
 ## [0.1.0]
 ### Changed
 - Add class annotations
