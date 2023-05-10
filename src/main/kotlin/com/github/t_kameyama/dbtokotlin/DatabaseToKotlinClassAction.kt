@@ -31,9 +31,12 @@ class DatabaseToKotlinClassAction : AnAction() {
     }
 
     override fun actionPerformed(e: AnActionEvent) {
-        val tables = e.getData(LangDataKeys.PSI_ELEMENT_ARRAY).orEmpty()
-            .filterIsInstance<DbTable>().sortedBy { it.name }
-        if (tables.isEmpty()) return
+        val tables = e.getData(LangDataKeys.PSI_ELEMENT_ARRAY)
+            .orEmpty()
+            .filterIsInstance<DbTable>()
+            .sortedBy { it.name }
+            .ifEmpty { return }
+
         val dialect = DbSqlUtil.getSqlDialect(tables.first()).databaseDialect
         val state = SettingsState.getInstance()
         val dataClasses = tables.joinToString(separator = "\n\n") {
@@ -44,10 +47,7 @@ class DatabaseToKotlinClassAction : AnAction() {
                 classAnnotationsRowText = state.classAnnotations
             )
         }
-        write(dataClasses)
-    }
 
-    private fun write(dataClasses: String) {
         CopyPasteManager.getInstance().setContents(StringSelection(dataClasses))
     }
 
@@ -57,15 +57,15 @@ class DatabaseToKotlinClassAction : AnAction() {
         classNamePostfix: String,
         classAnnotationsRowText: String,
     ): String {
-        val split = name.lowercase().split("_")
-        val last = split.last()
-        val className = split
-            .joinToString("_") { if (it == last) Inflector.singularize(it) else it }
-            .let { Inflector.camelize(it, true) }
-            .let { "$classNamePrefix$it$classNamePostfix" }
-        val indent = "    "
-        val properties = DasUtil.getColumns(this)
-            .joinToString(prefix = "\n", postfix = "\n", separator = ",\n") { "$indent${it.createProperty(dialect)}" }
+        val className = "$classNamePrefix${name.camelize(true)}$classNamePostfix"
+
+        val indent = " ".repeat(4)
+        val properties = DasUtil.getColumns(this).joinToString(
+            prefix = "\n",
+            postfix = "\n",
+            separator = ",\n",
+            transform = { "$indent${it.createProperty(dialect)}" }
+        )
 
         val classAnnotations = if (classAnnotationsRowText.isNotBlank()) {
             classAnnotationsRowText
@@ -111,7 +111,40 @@ class DatabaseToKotlinClassAction : AnAction() {
             else -> Any::class
         }.simpleName.let { if (this.isNotNull) it else "$it?" }
 
-        val propertyName = Inflector.camelize(name.lowercase(), false)
+        val propertyName = name.camelize(false)
         return "val $propertyName: $type"
+    }
+
+    private fun String.camelize(isClassName: Boolean): String {
+        ifEmpty { return this }
+
+        val tokens = split("_")
+        val lastIndex = tokens.size - 1
+        val camel = buildString {
+            tokens.forEachIndexed { index, token ->
+                if (isClassName && index == lastIndex) {
+                    append(token.singularize().capitalize())
+                } else {
+                    append(token.capitalize())
+                }
+            }
+        }
+
+        return if (isClassName) {
+            camel
+        } else {
+            camel.substring(0, 1).lowercase() + camel.substring(1)
+        }
+    }
+
+    private fun String.capitalize(): String {
+        ifEmpty { return this }
+        return substring(0, 1).uppercase() + substring(1).lowercase()
+    }
+
+    private fun String.singularize(): String {
+        val lowercase = lowercase()
+        val singular = Inflector.singularize(lowercase)
+        return if (lowercase == Inflector.pluralize(singular)) singular else lowercase
     }
 }

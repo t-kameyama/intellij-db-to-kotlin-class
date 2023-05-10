@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.0]
+### Fixed
+- Fixed an issue where the state was not loaded
+- Fixed an issue where conversion to camel case / singular was not done correctly
+
 ## [0.2.0]
 ### Changed
 - Support IntelliJ IDEA 2023.1

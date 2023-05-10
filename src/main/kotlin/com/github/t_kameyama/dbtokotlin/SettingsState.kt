@@ -24,7 +24,7 @@ class SettingsState: PersistentStateComponent<SettingsState> {
         return this
     }
 
-    override fun loadState(p0: SettingsState) {
+    override fun loadState(state: SettingsState) {
         XmlSerializerUtil.copyBean(state, this)
     }
 
