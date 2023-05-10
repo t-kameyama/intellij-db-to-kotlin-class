@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.4.0]
+### Fixed
+- Fix camel case conversion
+
 ## [0.3.0]
 ### Fixed
 - Fixed an issue where the state was not loaded

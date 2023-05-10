@@ -118,7 +118,14 @@ class DatabaseToKotlinClassAction : AnAction() {
     private fun String.camelize(isClassName: Boolean): String {
         ifEmpty { return this }
 
-        val tokens = split("_")
+        val tokens = if ("_" in this) {
+            split("_")
+        } else {
+            toCharArray()
+                .joinToString(separator = "") { if (it.isUpperCase()) "_$it" else "$it" }
+                .removePrefix("_")
+                .split("_")
+        }
         val lastIndex = tokens.size - 1
         val camel = buildString {
             tokens.forEachIndexed { index, token ->
