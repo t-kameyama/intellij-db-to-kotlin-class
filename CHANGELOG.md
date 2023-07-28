@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.5.0]
+### Changed
+- Support IntelliJ IDEA 2023.2
+
 ## [0.4.0]
 ### Fixed
 - Fix camel case conversion
