@@ -44,7 +44,7 @@ class DatabaseToKotlinClassAction : AnAction() {
                 dialect = dialect,
                 classNamePrefix = state.classNamePrefix,
                 classNamePostfix = state.classNamePostfix,
-                classAnnotationsRowText = state.classAnnotations
+                classAnnotationList = state.classAnnotationList
             )
         }
 
@@ -55,7 +55,7 @@ class DatabaseToKotlinClassAction : AnAction() {
         dialect: DatabaseDialect,
         classNamePrefix: String,
         classNamePostfix: String,
-        classAnnotationsRowText: String,
+        classAnnotationList: List<String>,
     ): String {
         val className = "$classNamePrefix${name.camelize(true)}$classNamePostfix"
 
@@ -67,9 +67,8 @@ class DatabaseToKotlinClassAction : AnAction() {
             transform = { "$indent${it.createProperty(dialect)}" }
         )
 
-        val classAnnotations = if (classAnnotationsRowText.isNotBlank()) {
-            classAnnotationsRowText
-                .split(",")
+        val classAnnotations = if (classAnnotationList.isNotEmpty()) {
+            classAnnotationList
                 .map { it.trim() }
                 .joinToString(separator = "\n", postfix = "\n") { if (it.startsWith("@")) it else "@$it" }
         } else {
@@ -89,25 +88,43 @@ class DatabaseToKotlinClassAction : AnAction() {
             JDBCType.NVARCHAR,
             JDBCType.LONGNVARCHAR,
             JDBCType.CLOB,
-            JDBCType.NCLOB -> String::class
+            JDBCType.NCLOB,
+            -> String::class
+
             JDBCType.TINYINT,
             JDBCType.SMALLINT,
-            JDBCType.INTEGER -> Int::class
-            JDBCType.BIGINT -> Long::class
+            JDBCType.INTEGER,
+            -> Int::class
+
+            JDBCType.BIGINT,
+            -> Long::class
+
             JDBCType.REAL,
             JDBCType.FLOAT,
             JDBCType.DOUBLE,
             JDBCType.NUMERIC,
-            JDBCType.DECIMAL -> BigDecimal::class
+            JDBCType.DECIMAL,
+            -> BigDecimal::class
+
             JDBCType.BIT,
-            JDBCType.BOOLEAN -> Boolean::class
-            JDBCType.DATE -> LocalDate::class
-            JDBCType.TIME -> LocalTime::class
-            JDBCType.TIMESTAMP -> LocalDateTime::class
+            JDBCType.BOOLEAN,
+            -> Boolean::class
+
+            JDBCType.DATE,
+            -> LocalDate::class
+
+            JDBCType.TIME,
+            -> LocalTime::class
+
+            JDBCType.TIMESTAMP,
+            -> LocalDateTime::class
+
             JDBCType.BINARY,
             JDBCType.VARBINARY,
             JDBCType.LONGVARBINARY,
-            JDBCType.BLOB -> ByteArray::class
+            JDBCType.BLOB,
+            -> ByteArray::class
+
             else -> Any::class
         }.simpleName.let { if (this.isNotNull) it else "$it?" }
 

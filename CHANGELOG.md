@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.0.0]
+### Changed
+- Register class annotations in list form
+
 ## [0.5.0]
 ### Changed
 - Support IntelliJ IDEA 2023.2

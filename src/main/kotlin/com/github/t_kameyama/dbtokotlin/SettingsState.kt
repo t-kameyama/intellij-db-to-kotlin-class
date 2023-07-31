@@ -10,15 +10,12 @@ import com.intellij.util.xmlb.XmlSerializerUtil
     name = "DatabaseToKotlinClassState",
     storages = [Storage("DatabaseToKotlinClassState.xml")]
 )
-class SettingsState: PersistentStateComponent<SettingsState> {
-    @Suppress("unused")
+class SettingsState : PersistentStateComponent<SettingsState> {
     var classNamePrefix: String = ""
 
-    @Suppress("unused")
     var classNamePostfix: String = ""
 
-    @Suppress("unused")
-    var classAnnotations: String = ""
+    var classAnnotationList: List<String> = emptyList()
 
     override fun getState(): SettingsState {
         return this

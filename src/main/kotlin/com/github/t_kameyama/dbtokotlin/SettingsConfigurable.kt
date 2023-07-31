@@ -8,7 +8,7 @@ class SettingsConfigurable : Configurable {
 
     override fun getDisplayName() = "Database To Kotlin Class"
 
-    override fun getPreferredFocusedComponent()= component!!.preferredFocusedComponent
+    override fun getPreferredFocusedComponent() = component!!.preferredFocusedComponent
 
     override fun createComponent(): JComponent {
         val component = SettingsComponent()
@@ -21,7 +21,7 @@ class SettingsConfigurable : Configurable {
         val state = SettingsState.getInstance()
         return (component.classNamePrefix != state.classNamePrefix) ||
                 (component.classNamePostfix != state.classNamePostfix) ||
-                (component.classAnnotations != state.classAnnotations)
+                (component.classAnnotationList != state.classAnnotationList)
     }
 
     override fun apply() {
@@ -29,7 +29,7 @@ class SettingsConfigurable : Configurable {
         val state = SettingsState.getInstance()
         state.classNamePrefix = component.classNamePrefix
         state.classNamePostfix = component.classNamePostfix
-        state.classAnnotations = component.classAnnotations
+        state.classAnnotationList = component.classAnnotationList
     }
 
     override fun reset() {
@@ -37,7 +37,7 @@ class SettingsConfigurable : Configurable {
         val state = SettingsState.getInstance()
         component.classNamePrefix = state.classNamePrefix
         component.classNamePostfix = state.classNamePostfix
-        component.classAnnotations = state.classAnnotations
+        component.classAnnotationList = state.classAnnotationList
     }
 
     override fun disposeUIResources() {
