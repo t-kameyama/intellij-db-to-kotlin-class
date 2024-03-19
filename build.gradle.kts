@@ -1,3 +1,4 @@
+
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -7,7 +8,7 @@ plugins {
     // Java support
     id("java")
     // Kotlin support
-    id("org.jetbrains.kotlin.jvm") version "1.9.21"
+    id("org.jetbrains.kotlin.jvm") version "1.9.23"
     // Gradle IntelliJ Plugin
     id("org.jetbrains.intellij") version "1.10.2"
     // Gradle Changelog Plugin
