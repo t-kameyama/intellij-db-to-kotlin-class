@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.6.0]
+### Changed
+- Support IntelliJ IDEA 2025.3
+
 ## [1.5.0]
 ### Changed
 - Support IntelliJ IDEA 2025.2
